@@ -1,0 +1,6 @@
+.img-modal {
+  width: 11rem;
+  height: 17rem;
+  object-fit: cover;
+  border-radius: 5px;
+}

@@ -1,0 +1,9 @@
+.my-img {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 100;
+  object-position: 10% 25%;
+}
