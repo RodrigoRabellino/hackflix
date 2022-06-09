@@ -8,7 +8,11 @@ const Carousel = () => {
   console.log(movie);
   return (
     <Container sx={{ width: "100vw", height: "60vh", display: "flex" }}>
-      <img className="my-img" src={movie.poster_path} alt="" srcset="" />
+      <img
+        className="my-img"
+        srcSet={movie.poster_path}
+        alt={`${movie.title} poster`}
+      />
     </Container>
   );
 };

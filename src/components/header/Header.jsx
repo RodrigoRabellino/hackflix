@@ -1,28 +1,18 @@
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Badge,
-  IconButton,
-  Container,
-} from "@mui/material";
+import { Box, AppBar, Toolbar, Badge, IconButton } from "@mui/material";
 import "./header.css";
-import movies from "../../services/movies.json";
 import { AccountCircle, Notifications } from "@mui/icons-material";
-import { useScrollTrigger } from "@mui/material";
-// import hackFlixLogo from "../../assets/img/hackFLix.png";
+import hackFlixLogo from "../../assets/img/hackflix.png";
 
 const Header = () => {
-  const randomIndex = Math.floor(Math.random() * (movies.length - 1) + 1);
-  const movie = movies[randomIndex];
-
-  const trigger = useScrollTrigger();
-  console.log(trigger);
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent">
+    <Box
+      sx={{ flexGrow: 1 }}
+      position="sticky"
+      top="0"
+      color="Background"
+      zIndex={900}
+    >
+      <AppBar position="static" elevation={1} sx={{ background: "#141414" }}>
         <Toolbar
           sx={{
             justifyContent: "space-between",
@@ -30,9 +20,13 @@ const Header = () => {
             marginRight: "1rem ",
           }}
         >
-          <Typography color="primary">HACKFLIX</Typography>
-          {/* <img src={""} alt="hackFLix logo" loading="lazy" /> */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <img
+            className="my-hackflix"
+            srcSet={hackFlixLogo}
+            alt="hackFLix logo"
+            loading="lazy"
+          />
+          <Box display="flex">
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -54,16 +48,6 @@ const Header = () => {
             </IconButton>
           </Box>
         </Toolbar>
-        <Container
-          sx={{
-            width: "100%",
-            height: "25vh",
-            display: "flex",
-            padding: 0,
-          }}
-        >
-          <img className="my-img" src={movie.poster_path} alt="" srcset="" />
-        </Container>
       </AppBar>
     </Box>
   );

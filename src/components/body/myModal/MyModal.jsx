@@ -1,8 +1,9 @@
-import { Modal, Paper, Typography, Box } from "@mui/material";
+import { Modal, Paper, Typography, Box, Chip } from "@mui/material";
 import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
-  const { poster_path, title, vote_average, overview, release_date } = movie;
+  const { poster_path, title, vote_average, overview, genresInMovie } = movie;
+  const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
   return (
     <Modal
       open={open}
@@ -17,13 +18,24 @@ const MyModal = ({ open, handleClose, movie }) => {
     >
       <Paper
         sx={{
+          background: "#141414",
           padding: "1rem",
           display: "flex",
           width: "50%",
         }}
       >
-        <img className="img-modal" src={poster_path} alt={`${title} poster`} />
-        <Box padding={1} marginLeft={1}>
+        <img
+          className="img-modal"
+          srcSet={posterPath}
+          alt={`${title} poster`}
+        />
+        <Box
+          padding={1}
+          marginLeft={1}
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+        >
           <Box
             width="100%"
             display="flex"
@@ -31,19 +43,38 @@ const MyModal = ({ open, handleClose, movie }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography variant="h5">{title}</Typography>
-            <Paper sx={{ padding: "0.65rem", background: "#141414" }}>
-              <Typography variant="body1" color="primary" fontWeight={800}>
+            <Typography color="HighlightText" variant="h5">
+              {title}
+            </Typography>
+            <Paper sx={{ padding: "0.65rem", background: "#e41114" }}>
+              <Typography
+                variant="body1"
+                color="HighlightText"
+                fontWeight={800}
+              >
                 {vote_average}
               </Typography>
             </Paper>
           </Box>
+          <Box paddingTop="1rem">
+            <Typography color="HighlightText">{overview}</Typography>
+          </Box>
 
-          <Typography sx={{ paddingTop: "1rem" }}>{overview}</Typography>
-          <Box textAlign="end">
-            <Typography variant="button" textAlign="end">
-              {release_date}
-            </Typography>
+          <Box
+            textAlign="end"
+            display="flex"
+            justifyContent="space-evenly"
+            marginTop="1rem"
+          >
+            {genresInMovie.map((genre) => {
+              return (
+                <Chip
+                  key={genre.id}
+                  color="primary"
+                  label={<Typography variant="body2">{genre.name}</Typography>}
+                />
+              );
+            })}
           </Box>
         </Box>
       </Paper>
