@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material";
 import "./App.css";
-import { Header } from "./components/header";
-import { Body } from "./components/body";
+
+import MyRoutes from "./MyRoutes";
 
 const myTheme = createTheme({
   palette: {
@@ -27,8 +27,7 @@ function App() {
   return (
     <ThemeProvider theme={myTheme}>
       <div className="App">
-        <Header />
-        <Body />
+        <MyRoutes />
       </div>
     </ThemeProvider>
   );

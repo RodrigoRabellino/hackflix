@@ -40,6 +40,14 @@ const LoadingSkeleton = () => {
           height={272}
         />
       </Grid>
+      <Grid item lg="auto">
+        <Skeleton
+          sx={skeletonStyle}
+          variant="rectangular"
+          width={176}
+          height={272}
+        />
+      </Grid>
     </Grid>
   );
 };

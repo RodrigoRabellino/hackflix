@@ -1,7 +1,7 @@
 import { Box, AppBar, Toolbar, Badge, IconButton } from "@mui/material";
 import "./header.css";
 import { AccountCircle, Notifications } from "@mui/icons-material";
-import hackFlixLogo from "../../assets/img/hackflix.png";
+import hackFlixLogo from "../../../assets/img/hackflix.png";
 
 const Header = () => {
   return (

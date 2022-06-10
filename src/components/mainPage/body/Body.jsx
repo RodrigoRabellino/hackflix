@@ -11,7 +11,7 @@ import {
 import { Cached, Star } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MovieCard from "./movieCard/MovieCard";
-import { fetchMovies, fetchGenres } from "../../services/tmdbServices";
+import { fetchMovies, fetchGenres } from "../../../services/tmdbServices";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingSkeleton from "./loadingSkeleton/LoadingSkeleton";
 
@@ -35,7 +35,7 @@ const Body = () => {
     setTmdbPage(tmdbPage + 1);
     console.log("tmdbPagedespois", tmdbPage);
   };
-
+  //fetching all genres movies
   useEffect(() => {
     const searchGenres = async () => {
       const resp = await fetchGenres();
@@ -43,7 +43,7 @@ const Body = () => {
     };
     searchGenres();
   }, []);
-
+  //fetching discover movies first time and when user scroll down
   useEffect(() => {
     const searchMovies = async () => {
       const resp = await fetchMovies(tmdbPage);
@@ -51,7 +51,7 @@ const Body = () => {
     };
     searchMovies();
   }, [tmdbPage]);
-
+  //fetching discover movies when user scroll down
   useEffect(() => {
     if (ratingSearch === 0) return setMovies([...moviesJSON]);
     setMovies(
