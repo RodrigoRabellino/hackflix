@@ -2,8 +2,9 @@ import { Modal, Paper, Typography, Box, Chip } from "@mui/material";
 import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
-  const { poster_path, title, vote_average, overview, genresInMovie } = movie;
-  const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
+  const { backdrop_path, title, vote_average, overview, genresInMovie } = movie;
+  console.log(movie);
+  const posterPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
     <Modal
       open={open}
@@ -18,10 +19,13 @@ const MyModal = ({ open, handleClose, movie }) => {
     >
       <Paper
         sx={{
+          maxWidth: "800px",
+          display: "flex",
+          flexDirection: "column",
           background: "#141414",
-          padding: "1rem",
           display: "flex",
           width: "50%",
+          overflow: "hidden",
         }}
       >
         <img
@@ -31,10 +35,10 @@ const MyModal = ({ open, handleClose, movie }) => {
         />
         <Box
           padding={1}
-          marginLeft={1}
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
+          sx={{ boxShadow: "0 0 20px 20px #141414" }}
         >
           <Box
             width="100%"

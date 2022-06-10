@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { colors, Skeleton } from "@mui/material";
+import { colors, Paper, Skeleton, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { useParams } from "react-router-dom";
 import {
@@ -7,6 +7,7 @@ import {
   fetchSimilarMovies,
   fetchWatchProviders,
 } from "../../../services/tmdbServices";
+import "./movieDetails.css";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -29,22 +30,53 @@ const MovieDetails = () => {
     getSimilarMovies();
   }, [movieId]);
 
-  const { poster_path, title } = movie;
+  console.log(movie);
+  console.log(provider);
+
+  const { poster_path, title, overview, release_date, backdrop_path } = movie;
   const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
+  const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
-    <Container>
+    <Box>
       {Object.entries(movie).length === 0 ? (
         <MovieSkeleton />
       ) : (
-        <Box>
+        <Box
+          width="100%"
+          height="100vh"
+          position="relative"
+          text-align="center"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
           <img
-            srcSet={posterPath}
+            srcSet={backImgPath}
             alt={`${title} poster`}
             className="movie-details-img"
           />
+          <Box
+            display="flex"
+            flexDirection="column"
+            position="absolute"
+            width="100%"
+            height="100%"
+          >
+            <Paper
+              sx={{
+                boxShadow: "0 0 15px 20px white",
+                padding: "1rem",
+                paddingBottom: "5rem",
+              }}
+            >
+              <Typography variant="h4">{title}</Typography>
+              <Typography variant="body2">{release_date}</Typography>
+              <Typography>{overview}</Typography>
+            </Paper>
+          </Box>
         </Box>
       )}
-    </Container>
+    </Box>
   );
 };
 
