@@ -6,7 +6,6 @@ import {
   Typography,
   IconButton,
   Grid,
-  Skeleton,
 } from "@mui/material";
 import { Cached, Star } from "@mui/icons-material";
 import { useState, useEffect } from "react";
@@ -31,9 +30,7 @@ const Body = () => {
   };
 
   const handleNextPage = () => {
-    console.log("tmdbPageantes", tmdbPage);
     setTmdbPage(tmdbPage + 1);
-    console.log("tmdbPagedespois", tmdbPage);
   };
   //fetching all genres movies
   useEffect(() => {

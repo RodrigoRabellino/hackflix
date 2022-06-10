@@ -1,8 +1,8 @@
 import { Box, AppBar, Toolbar, Badge, IconButton } from "@mui/material";
-import "./header.css";
+import { Link } from "react-router-dom";
 import { AccountCircle, Notifications } from "@mui/icons-material";
 import hackFlixLogo from "../../../assets/img/hackflix.png";
-
+import "./header.css";
 const Header = () => {
   return (
     <Box
@@ -20,12 +20,15 @@ const Header = () => {
             marginRight: "1rem ",
           }}
         >
-          <img
-            className="my-hackflix"
-            srcSet={hackFlixLogo}
-            alt="hackFLix logo"
-            loading="lazy"
-          />
+          <Link to="/">
+            <img
+              className="my-hackflix"
+              srcSet={hackFlixLogo}
+              alt="hackFLix logo"
+              loading="lazy"
+            />
+          </Link>
+
           <Box display="flex">
             <IconButton
               size="large"
