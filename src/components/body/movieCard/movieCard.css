@@ -1,4 +1,5 @@
 .poster-movie {
+  border-radius: 15px;
   width: 11rem;
   height: 17rem;
   object-fit: cover;

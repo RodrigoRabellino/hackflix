@@ -6,18 +6,21 @@ import {
   Typography,
   IconButton,
   Grid,
+  Skeleton,
 } from "@mui/material";
 import { Cached, Star } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-// import moviesJSON from "../../services/movies.json";
 import MovieCard from "./movieCard/MovieCard";
 import { fetchMovies, fetchGenres } from "../../services/tmdbServices";
+import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingSkeleton from "./loadingSkeleton/LoadingSkeleton";
 
 const Body = () => {
   const [movies, setMovies] = useState([]);
   const [ratingSearch, setRating] = useState(0);
   const [moviesJSON, setMoviesJSON] = useState([]);
   const [genresList, setGenres] = useState([]);
+  const [tmdbPage, setTmdbPage] = useState(1);
 
   const handleSetRating = (newValue) => {
     setRating(newValue);
@@ -25,6 +28,12 @@ const Body = () => {
 
   const handleRefresh = () => {
     setRating(0);
+  };
+
+  const handleNextPage = () => {
+    console.log("tmdbPageantes", tmdbPage);
+    setTmdbPage(tmdbPage + 1);
+    console.log("tmdbPagedespois", tmdbPage);
   };
 
   useEffect(() => {
@@ -37,11 +46,11 @@ const Body = () => {
 
   useEffect(() => {
     const searchMovies = async () => {
-      const resp = await fetchMovies();
+      const resp = await fetchMovies(tmdbPage);
       setMoviesJSON((prevState) => [...prevState, ...resp]);
     };
     searchMovies();
-  }, []);
+  }, [tmdbPage]);
 
   useEffect(() => {
     if (ratingSearch === 0) return setMovies([...moviesJSON]);
@@ -79,15 +88,23 @@ const Body = () => {
           )}
         </Paper>
       </Box>
-      <Container sx={{ width: "100%", marginTop: "1.5rem" }}>
-        <Grid container justifyContent="center" spacing={2}>
-          {movies.map((movie) => {
-            return (
-              <MovieCard movie={movie} key={movie.id} genres={genresList} />
-            );
-          })}
-        </Grid>
-      </Container>
+      <InfiniteScroll
+        dataLength={movies.length}
+        next={() => handleNextPage()}
+        hasMore={true}
+        loader={<LoadingSkeleton />}
+        scrollThreshold={0.95}
+      >
+        <Container sx={{ width: "100%", marginTop: "1.5rem" }}>
+          <Grid container justifyContent="center" spacing={2}>
+            {movies.map((movie) => {
+              return (
+                <MovieCard movie={movie} key={movie.id} genres={genresList} />
+              );
+            })}
+          </Grid>
+        </Container>
+      </InfiniteScroll>
     </Container>
   );
 };
