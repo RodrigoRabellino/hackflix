@@ -23,6 +23,7 @@ const GenresPage = () => {
       getMovies(index);
     }
   }, []);
+  console.log(genres);
 
   return (
     <>
@@ -31,7 +32,7 @@ const GenresPage = () => {
       ) : (
         <>
           <CarouselGenre movies={movies} genre={genres[0]} />
-          <CarouselGenre movies={movies} genre={genres[16]} />
+          <CarouselGenre movies={movies} genre={genres[14]} />
           <CarouselGenre movies={movies} genre={genres[2]} />
           <CarouselGenre movies={movies} genre={genres[3]} />
         </>

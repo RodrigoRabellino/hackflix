@@ -37,7 +37,7 @@ const MovieDetails = () => {
     getMovie();
     getProvider();
     getSimilarMovies();
-  }, []);
+  }, [movieId]);
 
   console.log("similar", similarMovies);
   const { title, overview, release_date, backdrop_path } = movie;
@@ -75,27 +75,28 @@ const MovieDetails = () => {
             <Paper
               sx={{
                 transition: "0.9s",
-                boxShadow: showMore ? "none" : "0 0 15px 20px white",
                 padding: "1rem",
-                paddingBottom: "1.5rem",
                 borderRadius: "0",
               }}
             >
               <Box display="flex" onClick={() => setShowMore(!showMore)}>
                 <Typography variant="h4">{title}</Typography>
                 <IconButton>
-                  {showMore ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+                  {showMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </IconButton>
               </Box>
               <Typography>{overview}</Typography>
               <Box
                 sx={{
+                  marginTop: "1rem",
                   transition: "0.2s",
                 }}
                 height={showMore ? "1px" : "200px"}
               >
-                <Typography>Similar</Typography>
-                <Carousel movies={similarMovies} />
+                <Typography>Similar Movies: </Typography>
+                <Box marginTop="1rem">
+                  <Carousel movies={similarMovies} />
+                </Box>
               </Box>
             </Paper>
           </Box>
