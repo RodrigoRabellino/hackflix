@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
-import { colors, Paper, Skeleton, Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import {
+  colors,
+  IconButton,
+  Paper,
+  Skeleton,
+  Typography,
+  Box,
+} from "@mui/material";
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import {
   fetchOneMovie,
@@ -8,10 +15,12 @@ import {
   fetchWatchProviders,
 } from "../../../services/tmdbServices";
 import "./movieDetails.css";
+import Carousel from "../genresPage/carousel/Carousel";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
+  const [showMore, setShowMore] = useState(false);
   const [provider, setProvider] = useState([]);
   const [similarMovies, setSimilarMovie] = useState([]);
 
@@ -28,16 +37,13 @@ const MovieDetails = () => {
     getMovie();
     getProvider();
     getSimilarMovies();
-  }, [movieId]);
+  }, []);
 
-  console.log(movie);
-  console.log(provider);
-
-  const { poster_path, title, overview, release_date, backdrop_path } = movie;
-  const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
+  console.log("similar", similarMovies);
+  const { title, overview, release_date, backdrop_path } = movie;
   const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
-    <Box>
+    <Box overflow="hidden">
       {Object.entries(movie).length === 0 ? (
         <MovieSkeleton />
       ) : (
@@ -56,22 +62,41 @@ const MovieDetails = () => {
             className="movie-details-img"
           />
           <Box
+            sx={{
+              transition: "0.9s",
+            }}
             display="flex"
             flexDirection="column"
             position="absolute"
             width="100%"
             height="100%"
+            justifyContent="flex-end"
           >
             <Paper
               sx={{
-                boxShadow: "0 0 15px 20px white",
+                transition: "0.9s",
+                boxShadow: showMore ? "none" : "0 0 15px 20px white",
                 padding: "1rem",
-                paddingBottom: "5rem",
+                paddingBottom: "1.5rem",
+                borderRadius: "0",
               }}
             >
-              <Typography variant="h4">{title}</Typography>
-              <Typography variant="body2">{release_date}</Typography>
+              <Box display="flex" onClick={() => setShowMore(!showMore)}>
+                <Typography variant="h4">{title}</Typography>
+                <IconButton>
+                  {showMore ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+                </IconButton>
+              </Box>
               <Typography>{overview}</Typography>
+              <Box
+                sx={{
+                  transition: "0.2s",
+                }}
+                height={showMore ? "1px" : "200px"}
+              >
+                <Typography>Similar</Typography>
+                <Carousel movies={similarMovies} />
+              </Box>
             </Paper>
           </Box>
         </Box>
