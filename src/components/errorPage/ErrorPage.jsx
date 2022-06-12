@@ -22,9 +22,9 @@ const ErrorPage = () => {
             fontSize: {
               xs: 50,
               sm: 100,
-              md: 150,
-              lg: 200,
-              xl: 230,
+              md: 120,
+              lg: 150,
+              xl: 170,
             },
           }}
         >

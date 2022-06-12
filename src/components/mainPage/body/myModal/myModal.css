@@ -1,5 +1,5 @@
 .img-modal {
   height: 17rem;
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 5px 5px 0 0;
 }

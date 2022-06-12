@@ -40,7 +40,13 @@ const MovieCard = ({ movie, genres }) => {
           alt={`${movie.title} poster`}
         />
       </Grid>
-      <MyModal open={showModal} handleClose={handleCloseModal} movie={movie} />
+      {showModal ? (
+        <MyModal
+          open={showModal}
+          handleClose={handleCloseModal}
+          movie={movie}
+        />
+      ) : null}
     </>
   );
 };

@@ -17,17 +17,14 @@ const Carousel = ({ movies }) => {
     const dialItems = [
       {
         icon: <PlaylistAdd fontSize="small" color="primary" />,
-        name: "favorite",
+        name: "Add to favorite",
+        onClick: () => {},
       },
       {
-        icon: (
-          <IconButton
-            onClick={() => navigate(`/movie/${movie.id}`, { replace: true })}
-          >
-            <Launch color="primary" fontSize="small" />
-          </IconButton>
-        ),
+        icon: <Launch color="primary" fontSize="small" />,
+
         name: "View More",
+        onClick: () => navigate(`/movie/${movie.id}`, { replace: true }),
       },
     ];
 
@@ -67,6 +64,7 @@ const Carousel = ({ movies }) => {
         >
           {dialItems.map((item) => (
             <SpeedDialAction
+              onClick={item.onClick}
               key={item.name}
               icon={item.icon}
               tooltipTitle={item.name}
@@ -108,6 +106,7 @@ const Carousel = ({ movies }) => {
         disableButtonsControls
         paddingRight={padding}
         controlsStrategy="alternate"
+        infinite
       />
     </Container>
   );

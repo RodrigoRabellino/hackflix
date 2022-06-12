@@ -1,9 +1,12 @@
-import { Modal, Paper, Typography, Box, Chip } from "@mui/material";
+import { Launch, PlaylistAdd } from "@mui/icons-material";
+import { Modal, Paper, Typography, Box, Chip, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
+  const navigate = useNavigate();
+
   const { backdrop_path, title, vote_average, overview, genresInMovie } = movie;
-  console.log(movie);
   const posterPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
     <Modal
@@ -23,7 +26,6 @@ const MyModal = ({ open, handleClose, movie }) => {
           display: "flex",
           flexDirection: "column",
           background: "#141414",
-          display: "flex",
           width: "50%",
           overflow: "hidden",
         }}
@@ -47,9 +49,27 @@ const MyModal = ({ open, handleClose, movie }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography color="HighlightText" variant="h5">
-              {title}
-            </Typography>
+            <Box
+              display="flex"
+              width="30%"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Typography color="HighlightText" variant="h5">
+                {title}
+              </Typography>
+              <IconButton>
+                <PlaylistAdd color="primary" />
+              </IconButton>
+              <IconButton
+                onClick={() =>
+                  navigate(`/movie/${movie.id}`, { replace: true })
+                }
+              >
+                <Launch color="primary" fontSize="small" />
+              </IconButton>
+            </Box>
+
             <Paper sx={{ padding: "0.65rem", background: "#e41114" }}>
               <Typography
                 variant="body1"

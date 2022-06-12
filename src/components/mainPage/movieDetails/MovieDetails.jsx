@@ -40,7 +40,7 @@ const MovieDetails = () => {
   }, [movieId]);
 
   console.log("similar", similarMovies);
-  const { title, overview, release_date, backdrop_path } = movie;
+  const { title, overview, backdrop_path } = movie;
   const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
     <Box overflow="hidden">
