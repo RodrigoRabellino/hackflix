@@ -1,5 +1,4 @@
 import { Container, Typography, Box } from "@mui/material";
-import { useState } from "react";
 
 const LoginPage = ({ usersList, handleLogged }) => {
   const users = usersList;
@@ -17,13 +16,6 @@ const LoginPage = ({ usersList, handleLogged }) => {
       <Typography
         sx={{
           fontSize: "3.5vw",
-          //   fontSize: {
-          //     xs: 50,
-          //     sm: 60,
-          //     md: 70,
-          //     lg: 80,
-          //     xl: 120,
-          //   },
         }}
         color="HighlightText"
       >

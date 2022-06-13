@@ -6,6 +6,7 @@ import {
   Skeleton,
   Typography,
   Box,
+  Tooltip,
 } from "@mui/material";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
@@ -21,7 +22,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
   const [showMore, setShowMore] = useState(false);
-  const [provider, setProvider] = useState([]);
+  const [providers, setProvider] = useState([]);
   const [similarMovies, setSimilarMovie] = useState([]);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const MovieDetails = () => {
     getSimilarMovies();
   }, [movieId]);
 
-  console.log("similar", similarMovies);
+  console.log("similar", providers);
   const { title, overview, backdrop_path } = movie;
   const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
@@ -81,19 +82,63 @@ const MovieDetails = () => {
             >
               <Box display="flex" onClick={() => setShowMore(!showMore)}>
                 <Typography variant="h4">{title}</Typography>
+
                 <IconButton>
                   {showMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </IconButton>
+                <Typography color="primary">aca va average </Typography>
+                <Typography color="primary">aca va puntahe</Typography>
               </Box>
               <Typography>{overview}</Typography>
               <Box
                 sx={{
                   marginTop: "1rem",
                   transition: "0.2s",
+                  height: showMore ? "1px" : "fit-content",
                 }}
-                height={showMore ? "1px" : "200px"}
               >
-                <Typography>Similar Movies: </Typography>
+                {providers.length === 0 ? null : (
+                  <>
+                    <Typography color="primary">Streaming now in: </Typography>
+                    <Box
+                      display="flex"
+                      justifyContent="space-around"
+                      paddingY="1rem"
+                    >
+                      {providers.map((provider) => {
+                        let logoPath =
+                          "https://image.tmdb.org/t/p/w500" +
+                          provider.logo_path;
+                        return (
+                          <Box
+                            key={provider.provider_id}
+                            width="50px"
+                            sx={{
+                              transition: "0.2s",
+                              ":hover": {
+                                transition: "0.2s",
+                                transform: "scale(1.1)",
+                              },
+                            }}
+                          >
+                            <Tooltip
+                              title={provider.provider_name}
+                              placement="top"
+                            >
+                              <img
+                                srcSet={logoPath}
+                                style={{ width: "50px" }}
+                                alt={provider.provider_name}
+                              />
+                            </Tooltip>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  </>
+                )}
+
+                <Typography color="primary">Similar Movies: </Typography>
                 <Box marginTop="1rem">
                   <Carousel movies={similarMovies} />
                 </Box>

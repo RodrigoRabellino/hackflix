@@ -1,12 +1,6 @@
 import AliceCarousel from "react-alice-carousel";
 import { useEffect, useState, useRef } from "react";
-import {
-  Box,
-  Container,
-  IconButton,
-  SpeedDial,
-  SpeedDialAction,
-} from "@mui/material";
+import { Box, Container, SpeedDial, SpeedDialAction } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { PlaylistAdd, Launch, Menu, MenuOpen } from "@mui/icons-material";
 
