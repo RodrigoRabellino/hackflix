@@ -5,20 +5,12 @@ import "./movieCard.css";
 
 const MovieCard = ({ movie, genres }) => {
   const [showModal, setShowModal] = useState(false);
-  const { poster_path, genre_ids } = movie;
+  const { poster_path, title, name } = movie;
   const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
-  let genresInMovie = [];
-
-  for (let i = 0; i < genre_ids.length; i++) {
-    let resp = genres.find((genre) => genre.id === genre_ids[i]);
-    genresInMovie.push(resp);
-  }
-
-  movie.genresInMovie = genresInMovie;
-
   const handleCloseModal = () => {
     setShowModal(!showModal);
   };
+  console.log(movie);
 
   return (
     <>
@@ -36,8 +28,12 @@ const MovieCard = ({ movie, genres }) => {
       >
         <img
           className="poster-movie"
-          srcSet={posterPath}
-          alt={`${movie.title} poster`}
+          srcSet={
+            !poster_path
+              ? require("../../../../assets/img/imgplaceholder.png")
+              : posterPath
+          }
+          alt={`${!title ? name : title} poster`}
         />
       </Grid>
       {showModal ? (

@@ -1,12 +1,12 @@
 import { Launch, PlaylistAdd } from "@mui/icons-material";
-import { Modal, Paper, Typography, Box, Chip, IconButton } from "@mui/material";
+import { Modal, Paper, Typography, Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
   const navigate = useNavigate();
 
-  const { backdrop_path, title, vote_average, overview, genresInMovie } = movie;
+  const { backdrop_path, title, vote_average, overview, name } = movie;
   const posterPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
     <Modal
@@ -32,8 +32,12 @@ const MyModal = ({ open, handleClose, movie }) => {
       >
         <img
           className="img-modal"
-          srcSet={posterPath}
-          alt={`${title} poster`}
+          srcSet={
+            !backdrop_path
+              ? require("../../../../assets/img/imgplaceholder.png")
+              : posterPath
+          }
+          alt={`${!title ? name : title} poster`}
         />
         <Box
           padding={1}
@@ -56,7 +60,7 @@ const MyModal = ({ open, handleClose, movie }) => {
               justifyContent="space-between"
             >
               <Typography color="HighlightText" variant="h5">
-                {title}
+                {!title ? name : title}
               </Typography>
               <IconButton>
                 <PlaylistAdd color="primary" />
@@ -82,23 +86,6 @@ const MyModal = ({ open, handleClose, movie }) => {
           </Box>
           <Box paddingTop="1rem">
             <Typography color="HighlightText">{overview}</Typography>
-          </Box>
-
-          <Box
-            textAlign="end"
-            display="flex"
-            justifyContent="space-evenly"
-            marginTop="1rem"
-          >
-            {genresInMovie.map((genre) => {
-              return (
-                <Chip
-                  key={genre.id}
-                  color="primary"
-                  label={<Typography variant="body2">{genre.name}</Typography>}
-                />
-              );
-            })}
           </Box>
         </Box>
       </Paper>

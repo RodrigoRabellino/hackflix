@@ -76,3 +76,14 @@ export const fetchWatchProviders = async (movieId) => {
     console.log("errorFetchWatchProviders", error);
   }
 };
+
+export const fetchMovieByQuery = async (movieQuery, page) => {
+  try {
+    const response = await axios.get(
+      `${API_PATH}/search/multi/${API_KEY}&page=${page}&query=${movieQuery}`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.log("errorFetchMovieByQuery", error);
+  }
+};

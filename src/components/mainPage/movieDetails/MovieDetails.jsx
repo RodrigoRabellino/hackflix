@@ -23,7 +23,7 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState({});
   const [showMore, setShowMore] = useState(false);
   const [providers, setProvider] = useState([]);
-  const [similarMovies, setSimilarMovie] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
 
   useEffect(() => {
     const getMovie = async () => {
@@ -33,15 +33,17 @@ const MovieDetails = () => {
       setProvider(await fetchWatchProviders(movieId));
     };
     const getSimilarMovies = async () => {
-      setSimilarMovie(await fetchSimilarMovies(movieId));
+      setSimilarMovies(await fetchSimilarMovies(movieId));
     };
     getMovie();
     getProvider();
     getSimilarMovies();
   }, [movieId]);
+  console.log(movie);
 
   console.log("similar", providers);
-  const { title, overview, backdrop_path } = movie;
+  const { title, overview, backdrop_path, vote_average, vote_count, name } =
+    movie;
   const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
   return (
     <Box overflow="hidden">
@@ -59,7 +61,7 @@ const MovieDetails = () => {
         >
           <img
             srcSet={backImgPath}
-            alt={`${title} poster`}
+            alt={`${!title ? name : title} poster`}
             className="movie-details-img"
           />
           <Box
@@ -80,14 +82,37 @@ const MovieDetails = () => {
                 borderRadius: "0",
               }}
             >
-              <Box display="flex" onClick={() => setShowMore(!showMore)}>
-                <Typography variant="h4">{title}</Typography>
+              <Box
+                display="flex"
+                onClick={() => setShowMore(!showMore)}
+                justifyContent="space-between"
+              >
+                <Box display="flex">
+                  <Typography variant="h4">{!title ? name : title}</Typography>
 
-                <IconButton>
-                  {showMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-                </IconButton>
-                <Typography color="primary">aca va average </Typography>
-                <Typography color="primary">aca va puntahe</Typography>
+                  <IconButton>
+                    {showMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                  </IconButton>
+                </Box>
+                <Box
+                  display="flex"
+                  width="15%"
+                  justifyContent="start"
+                  alignItems="center"
+                >
+                  <Typography display="flex" fontWeight="600">
+                    IMDB:
+                    <Typography color="primary" fontWeight="600">
+                      {vote_average}{" "}
+                    </Typography>
+                  </Typography>
+                  <Typography display="flex" fontWeight="600">
+                    Vote count:
+                    <Typography color="primary" fontWeight="600">
+                      {vote_count}{" "}
+                    </Typography>
+                  </Typography>
+                </Box>
               </Box>
               <Typography>{overview}</Typography>
               <Box
@@ -137,11 +162,14 @@ const MovieDetails = () => {
                     </Box>
                   </>
                 )}
-
-                <Typography color="primary">Similar Movies: </Typography>
-                <Box marginTop="1rem">
-                  <Carousel movies={similarMovies} />
-                </Box>
+                {similarMovies.length === 0 ? null : (
+                  <>
+                    <Typography color="primary">Similar Movies: </Typography>
+                    <Box marginTop="1rem">
+                      <Carousel movies={similarMovies} />
+                    </Box>
+                  </>
+                )}
               </Box>
             </Paper>
           </Box>
@@ -153,24 +181,14 @@ const MovieDetails = () => {
 
 const MovieSkeleton = () => {
   return (
-    <Box>
+    <Box width="100%" height="100%">
       <Skeleton
         variant="rectangular"
-        width="80%"
-        height="200px"
+        width="100%"
+        height="100%"
         animation="wave"
         sx={{
           bgcolor: colors.blueGrey[200],
-        }}
-      />
-      <Skeleton
-        variant="rectangular"
-        width="600px"
-        height="300px"
-        sx={{
-          bgcolor: colors.blueGrey[800],
-          paddin: "1rem",
-          borderRadius: "15px",
         }}
       />
     </Box>
