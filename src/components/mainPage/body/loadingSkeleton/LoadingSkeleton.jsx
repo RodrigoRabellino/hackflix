@@ -1,5 +1,4 @@
 import { Skeleton, Grid } from "@mui/material";
-import { borderRadius } from "@mui/system";
 
 const LoadingSkeleton = () => {
   const skeletonStyle = {
