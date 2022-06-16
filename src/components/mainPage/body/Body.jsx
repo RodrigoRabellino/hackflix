@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
-import { fetchMovies } from "../../../services/tmdbServices";
+import { fetchMovies, URL_POSTER_FULL } from "../../../services/tmdbServices";
 import SimpleImageSlider from "react-simple-image-slider";
 import "./body.css";
 import NameSearch from "./nameSearch/NameSearch";
@@ -46,7 +46,7 @@ const Body = () => {
 
 const MySlider = ({ movies }) => {
   const imagesUrl = movies.map((movie) => {
-    return "https://image.tmdb.org/t/p/w500" + movie.backdrop_path;
+    return URL_POSTER_FULL + movie.backdrop_path;
   });
   return (
     <SimpleImageSlider

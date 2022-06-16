@@ -1,13 +1,14 @@
 import { Launch, PlaylistAdd } from "@mui/icons-material";
 import { Modal, Paper, Typography, Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { URL_POSTER_FULL } from "../../../../services/tmdbServices";
 import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
   const navigate = useNavigate();
 
   const { backdrop_path, title, vote_average, overview, name } = movie;
-  const posterPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
+  const posterPath = URL_POSTER_FULL + backdrop_path;
   return (
     <Modal
       open={open}

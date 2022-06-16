@@ -1,13 +1,16 @@
-import { Box, Container, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { fetchGenres, fetchMovies } from "../../../services/tmdbServices";
 import "react-alice-carousel/lib/alice-carousel.css";
 import Carousel from "./carousel/Carousel";
+import { useSelector } from "react-redux";
 
 const GenresPage = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const { favGenresIds } = useSelector((state) => state.user);
 
+  console.log("favuser", favGenresIds);
   useEffect(() => {
     const getMovies = async (page) => {
       let resp = await fetchMovies(page);
@@ -23,18 +26,24 @@ const GenresPage = () => {
       getMovies(index);
     }
   }, []);
-  console.log(genres);
-
+  const userGenres = genres.filter((genre) => favGenresIds.includes(genre.id));
+  console.log(userGenres);
   return (
     <>
       {movies.length === 0 ? (
-        <Skeleton variant="rectangular" width="500px" height="500px" />
+        <GenreSkeleton />
       ) : (
         <>
-          <CarouselGenre movies={movies} genre={genres[0]} />
-          <CarouselGenre movies={movies} genre={genres[14]} />
-          <CarouselGenre movies={movies} genre={genres[2]} />
-          <CarouselGenre movies={movies} genre={genres[3]} />
+          {userGenres.map((favGenre) => {
+            console.log(genres[favGenre]);
+            return (
+              <CarouselGenre
+                movies={movies}
+                genre={favGenre}
+                key={favGenre.id}
+              />
+            );
+          })}
         </>
       )}
     </>
@@ -52,6 +61,27 @@ const CarouselGenre = ({ movies, genre }) => {
         genre={"Terror"}
       />
     </Box>
+  );
+};
+
+const GenreSkeleton = () => {
+  const skeletonStyle = {
+    backgroundColor: "rgb(68,68,68, 0.22)",
+    borderRadius: "15px",
+    width: "200px",
+    height: "116px",
+    marginX: "1rem",
+  };
+  return (
+    <>
+      <Skeleton sx={{ ...skeletonStyle, height: "40px", marginLeft: "75px" }} />
+      <Box display="flex" padding="0.65rem">
+        <Skeleton variant="rectangular" sx={skeletonStyle} />
+        <Skeleton variant="rectangular" sx={skeletonStyle} />
+        <Skeleton variant="rectangular" sx={skeletonStyle} />
+        <Skeleton variant="rectangular" sx={skeletonStyle} />
+      </Box>
+    </>
   );
 };
 

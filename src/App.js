@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme } from "@mui/material";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import "./App.css";
 import LoginPage from "./components/loginPage/LoginPage";
 import MyRoutes from "./MyRoutes";
@@ -24,27 +24,17 @@ const myTheme = createTheme({
   },
 });
 
-const usersList = [
-  { id: 1, name: "user1", favoritesGenres: [], imgUrl: "user1" },
-  { id: 2, name: "user2", favoritesGenres: [], imgUrl: "user2" },
-  { id: 3, name: "user3", favoritesGenres: [], imgUrl: "user3" },
-];
-
 function App() {
-  const [isLogged, setLogged] = useState(false);
-
-  const handleLogged = () => {
-    setLogged(!isLogged);
-  };
-
+  const user = useSelector((state) => state.user);
+  console.log("user desde app", user);
   return (
     <ThemeProvider theme={myTheme}>
-      {isLogged ? (
+      {Object.entries(user).length !== 0 ? (
         <div className="App">
           <MyRoutes />
         </div>
       ) : (
-        <LoginPage usersList={usersList} handleLogged={handleLogged} />
+        <LoginPage />
       )}
     </ThemeProvider>
   );

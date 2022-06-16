@@ -1,4 +1,4 @@
-import { Route, Routes, MemoryRouterProps } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import About from "./components/aboutPage/About";
 import ErrorPage from "./components/errorPage/ErrorPage";
 import GenresPage from "./components/mainPage/genresPage/GenresPage";
@@ -14,7 +14,6 @@ const MyRoutes = () => {
         <Route path="/" element={<MainPage />} />
         <Route path="/genres" element={<GenresPage />} />
         <Route path="/about" element={<About />} />
-
         <Route path="/movie/:movieId" element={<MovieDetails />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

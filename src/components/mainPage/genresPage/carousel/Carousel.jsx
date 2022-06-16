@@ -3,11 +3,13 @@ import { useEffect, useState, useRef } from "react";
 import { Box, Container, SpeedDial, SpeedDialAction } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { PlaylistAdd, Launch, Menu, MenuOpen } from "@mui/icons-material";
+import { URL_BACK_LOW } from "../../../../services/tmdbServices";
 
 const Carousel = ({ movies }) => {
   const navigate = useNavigate();
 
   const items = movies.map((movie) => {
+    const { backdrop_path, title, id } = movie;
     const dialItems = [
       {
         icon: <PlaylistAdd fontSize="small" color="primary" />,
@@ -18,11 +20,11 @@ const Carousel = ({ movies }) => {
         icon: <Launch color="primary" fontSize="small" />,
 
         name: "View More",
-        onClick: () => navigate(`/movie/${movie.id}`, { replace: true }),
+        onClick: () => navigate(`/movie/${id}`, { replace: true }),
       },
     ];
 
-    const posterPath = "https://image.tmdb.org/t/p/w500" + movie.backdrop_path;
+    const posterPath = URL_BACK_LOW + backdrop_path;
     return (
       <Box
         sx={{
@@ -35,12 +37,18 @@ const Carousel = ({ movies }) => {
         }}
       >
         <img
-          srcSet={posterPath}
-          alt={movie.title}
+          srcSet={
+            !backdrop_path
+              ? require("../../../../assets/img/imgplaceholder.png")
+              : posterPath
+          }
+          alt={title}
           style={{
             pointerEvents: "none",
             width: "200px",
+            height: "112px",
             borderRadius: "15px",
+            objectFit: "cover",
           }}
         />
         <SpeedDial

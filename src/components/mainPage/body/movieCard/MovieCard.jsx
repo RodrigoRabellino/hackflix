@@ -2,15 +2,15 @@ import { useState } from "react";
 import { Grid } from "@mui/material";
 import MyModal from "../myModal/MyModal";
 import "./movieCard.css";
+import { URL_BACK_LOW } from "../../../../services/tmdbServices";
 
 const MovieCard = ({ movie, genres }) => {
   const [showModal, setShowModal] = useState(false);
   const { poster_path, title, name } = movie;
-  const posterPath = "https://image.tmdb.org/t/p/w500" + poster_path;
+  const posterPath = URL_BACK_LOW + poster_path;
   const handleCloseModal = () => {
     setShowModal(!showModal);
   };
-  console.log(movie);
 
   return (
     <>

@@ -1,7 +1,37 @@
 import { Container, Typography, Box } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { loginUserCreator } from "../../redux/user/actions";
 
-const LoginPage = ({ usersList, handleLogged }) => {
-  const users = usersList;
+const LoginPage = () => {
+  const dispatch = useDispatch();
+  const usersList = [
+    {
+      id: 1,
+      name: "user1",
+      favGenresIds: [35, 28, 27, 9648, 53],
+      imgUrl: "user1",
+      kids: false,
+    },
+    {
+      id: 2,
+      name: "user2",
+      favGenresIds: [16, 80, 18, 14, 10749],
+      imgUrl: "user2",
+      kids: false,
+    },
+    {
+      id: 3,
+      name: "user3",
+      favGenresIds: [10751, 16, 80],
+      imgUrl: "user3",
+      kids: true,
+    },
+  ];
+
+  const handleLogin = (user) => {
+    dispatch(loginUserCreator(user));
+  };
+
   return (
     <Container
       sx={{
@@ -22,11 +52,11 @@ const LoginPage = ({ usersList, handleLogged }) => {
         Who's watching?
       </Typography>
       <Box display="flex" flexDirection="row">
-        {users.map((user) => {
+        {usersList.map((user) => {
           return (
             <Box
               key={user.id}
-              onClick={() => handleLogged()}
+              onClick={() => handleLogin(user)}
               sx={{
                 pointerEvents: "all",
                 margin: "1rem",

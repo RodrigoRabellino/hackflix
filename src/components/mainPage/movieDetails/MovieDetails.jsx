@@ -14,6 +14,7 @@ import {
   fetchOneMovie,
   fetchSimilarMovies,
   fetchWatchProviders,
+  URL_POSTER_FULL,
 } from "../../../services/tmdbServices";
 import "./movieDetails.css";
 import Carousel from "../genresPage/carousel/Carousel";
@@ -44,7 +45,7 @@ const MovieDetails = () => {
   console.log("similar", providers);
   const { title, overview, backdrop_path, vote_average, vote_count, name } =
     movie;
-  const backImgPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
+  const backImgPath = URL_POSTER_FULL + backdrop_path;
   return (
     <Box overflow="hidden">
       {Object.entries(movie).length === 0 ? (
@@ -131,9 +132,7 @@ const MovieDetails = () => {
                       paddingY="1rem"
                     >
                       {providers.map((provider) => {
-                        let logoPath =
-                          "https://image.tmdb.org/t/p/w500" +
-                          provider.logo_path;
+                        let logoPath = URL_POSTER_FULL + provider.logo_path;
                         return (
                           <Box
                             key={provider.provider_id}

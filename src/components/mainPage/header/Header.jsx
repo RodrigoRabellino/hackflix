@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Box,
   AppBar,
@@ -5,12 +6,30 @@ import {
   Badge,
   IconButton,
   Typography,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { AccountCircle, Notifications } from "@mui/icons-material";
+import { Notifications } from "@mui/icons-material";
 import hackFlixLogo from "../../../assets/img/hackflix.png";
+import { useSelector } from "react-redux";
 import "./header.css";
 const Header = () => {
+  const user = useSelector((state) => state.user);
+  const [notifications, setNotifications] = useState(0);
+
+  const handleNotifications = () => {
+    setNotifications(0);
+  };
+
+  useEffect(() => {
+    if (notifications === 0) {
+      const timer = Math.floor(Math.random() * (15000 - 5000) + 1);
+      setTimeout(() => {
+        return setNotifications(Math.floor(Math.random() * (7 - 1) + 1));
+      }, timer);
+    }
+  }, [notifications]);
+
   return (
     <Box
       sx={{ flexGrow: 1 }}
@@ -65,20 +84,22 @@ const Header = () => {
                 size="large"
                 aria-label="show 17 new notifications"
                 color="text"
+                onClick={() => handleNotifications()}
               >
-                <Badge badgeContent={17} color="primary">
+                <Badge badgeContent={notifications} color="primary">
                   <Notifications color="text" />
                 </Badge>
               </IconButton>
               <IconButton
+                id="userAvatar"
                 size="large"
-                edge="end"
                 aria-label="account of current user"
-                aria-haspopup="true"
                 onClick={() => {}}
-                color="text"
               >
-                <AccountCircle />
+                <Avatar
+                  variant="rounded"
+                  srcSet={require(`../../../assets/img/${user.imgUrl}.png`)}
+                />
               </IconButton>
             </Box>
           </Box>
