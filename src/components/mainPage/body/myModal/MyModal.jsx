@@ -1,5 +1,12 @@
 import { Launch, PlaylistAdd } from "@mui/icons-material";
-import { Modal, Paper, Typography, Box, IconButton } from "@mui/material";
+import {
+  Modal,
+  Paper,
+  Typography,
+  Box,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { URL_POSTER_FULL } from "../../../../services/tmdbServices";
 import "./myModal.css";
@@ -53,28 +60,38 @@ const MyModal = ({ open, handleClose, movie }) => {
             flexDirection="row"
             alignItems="center"
             justifyContent="space-between"
+            paddingX="0.65rem"
           >
             <Box
               display="flex"
-              width="30%"
+              width="75%"
               alignItems="center"
-              justifyContent="space-between"
+              justifyContent="start"
             >
-              <Typography color="HighlightText" variant="h5">
+              <Typography
+                color="HighlightText"
+                variant="h5"
+                marginRight="0.65rem"
+              >
                 {!title ? name : title}
               </Typography>
-              <IconButton>
-                <PlaylistAdd color="primary" />
-              </IconButton>
-              <IconButton
-                onClick={() =>
-                  navigate(`/movie/${movie.id}`, { replace: true })
-                }
-              >
-                <Launch color="primary" fontSize="small" />
-              </IconButton>
+              <Tooltip title="Add to list" placement="top">
+                <IconButton color="primary" size="small">
+                  <PlaylistAdd color="primary" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="View Now" placement="top">
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() =>
+                    navigate(`/movie/${movie.id}`, { replace: true })
+                  }
+                >
+                  <Launch />
+                </IconButton>
+              </Tooltip>
             </Box>
-
             <Paper sx={{ padding: "0.65rem", background: "#e41114" }}>
               <Typography
                 variant="body1"
@@ -85,7 +102,7 @@ const MyModal = ({ open, handleClose, movie }) => {
               </Typography>
             </Paper>
           </Box>
-          <Box paddingTop="1rem">
+          <Box paddingX="1rem" paddingTop="0.65rem">
             <Typography color="HighlightText">{overview}</Typography>
           </Box>
         </Box>

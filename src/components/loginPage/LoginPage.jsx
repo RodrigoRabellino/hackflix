@@ -1,9 +1,11 @@
 import { Container, Typography, Box } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { loginUserCreator } from "../../redux/user/actions";
+import { logInUser } from "../../redux/user/slice";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const usersList = [
     {
       id: 1,
@@ -29,7 +31,8 @@ const LoginPage = () => {
   ];
 
   const handleLogin = (user) => {
-    dispatch(loginUserCreator(user));
+    dispatch(logInUser(user));
+    navigate("/", { replace: true });
   };
 
   return (

@@ -65,6 +65,7 @@ const NameSearch = () => {
             }}
           >
             <TextField
+              color="info"
               size="small"
               label="Movie/TVShow Name"
               onChange={(e) => handleOnChange(e.target.value)}

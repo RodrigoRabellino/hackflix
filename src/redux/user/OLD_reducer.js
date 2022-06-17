@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { LOGIN_USER, DEL_USER } from "./actions";
+import { LOGIN_USER, DEL_USER } from "./OLD_actions";
 
 const initialState = {};
 

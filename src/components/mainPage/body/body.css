@@ -8,3 +8,9 @@
     rgba(20, 20, 20, 1) 80%
   );
 }
+.img-in-carousel {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  object-position: top;
+}

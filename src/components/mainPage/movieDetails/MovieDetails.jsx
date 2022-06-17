@@ -116,60 +116,9 @@ const MovieDetails = () => {
                 </Box>
               </Box>
               <Typography>{overview}</Typography>
-              <Box
-                sx={{
-                  marginTop: "1rem",
-                  transition: "0.2s",
-                  height: showMore ? "1px" : "fit-content",
-                }}
-              >
-                {providers.length === 0 ? null : (
-                  <>
-                    <Typography color="primary">Streaming now in: </Typography>
-                    <Box
-                      display="flex"
-                      justifyContent="space-around"
-                      paddingY="1rem"
-                    >
-                      {providers.map((provider) => {
-                        let logoPath = URL_POSTER_FULL + provider.logo_path;
-                        return (
-                          <Box
-                            key={provider.provider_id}
-                            width="50px"
-                            sx={{
-                              transition: "0.2s",
-                              ":hover": {
-                                transition: "0.2s",
-                                transform: "scale(1.1)",
-                              },
-                            }}
-                          >
-                            <Tooltip
-                              title={provider.provider_name}
-                              placement="top"
-                            >
-                              <img
-                                srcSet={logoPath}
-                                style={{ width: "50px" }}
-                                alt={provider.provider_name}
-                              />
-                            </Tooltip>
-                          </Box>
-                        );
-                      })}
-                    </Box>
-                  </>
-                )}
-                {similarMovies.length === 0 ? null : (
-                  <>
-                    <Typography color="primary">Similar Movies: </Typography>
-                    <Box marginTop="1rem">
-                      <Carousel movies={similarMovies} />
-                    </Box>
-                  </>
-                )}
-              </Box>
+              {false ? (
+                <MoreInfo providers={providers} similarMovies={similarMovies} />
+              ) : null}
             </Paper>
           </Box>
         </Box>
@@ -192,6 +141,47 @@ const MovieSkeleton = () => {
       />
     </Box>
   );
+};
+const MoreInfo = ({ providers, similarMovies }) => {
+  <Box
+    sx={{
+      marginTop: "1rem",
+      transition: "0.2s",
+      height: "fit-content",
+    }}
+  >
+    {providers.length === 0 ? null : (
+      <>
+        <Typography color="primary">Streaming now in: </Typography>
+        <Box display="flex" justifyContent="space-around" paddingY="1rem">
+          {providers.map((provider) => {
+            let logoPath = URL_POSTER_FULL + provider.logo_path;
+            return (
+              <Box
+                key={provider.provider_id}
+                width="50px"
+                sx={{
+                  transition: "0.2s",
+                  ":hover": {
+                    transition: "0.2s",
+                    transform: "scale(1.1)",
+                  },
+                }}
+              >
+                <Tooltip title={provider.provider_name} placement="top">
+                  <img
+                    srcSet={logoPath}
+                    style={{ width: "50px" }}
+                    alt={provider.provider_name}
+                  />
+                </Tooltip>
+              </Box>
+            );
+          })}
+        </Box>
+      </>
+    )}
+  </Box>;
 };
 
 export default MovieDetails;

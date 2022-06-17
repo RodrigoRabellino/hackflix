@@ -26,7 +26,6 @@ const myTheme = createTheme({
 
 function App() {
   const user = useSelector((state) => state.user);
-  console.log("user desde app", user);
   return (
     <ThemeProvider theme={myTheme}>
       {Object.entries(user).length !== 0 ? (
