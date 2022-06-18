@@ -10,7 +10,6 @@ const GenresPage = () => {
   const [genres, setGenres] = useState([]);
   const { favGenresIds } = useSelector((state) => state.user);
 
-  console.log("favuser", favGenresIds);
   useEffect(() => {
     const getMovies = async (page) => {
       let resp = await fetchMovies(page);
@@ -27,7 +26,7 @@ const GenresPage = () => {
     }
   }, []);
   const userGenres = genres.filter((genre) => favGenresIds.includes(genre.id));
-  console.log(userGenres);
+
   return (
     <>
       {movies.length === 0 ? (
@@ -35,7 +34,6 @@ const GenresPage = () => {
       ) : (
         <>
           {userGenres.map((favGenre) => {
-            console.log(genres[favGenre]);
             return (
               <CarouselGenre
                 movies={movies}

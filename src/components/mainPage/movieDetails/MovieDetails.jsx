@@ -123,7 +123,7 @@ const MovieDetails = () => {
                 </Box>
               </Box>
               <Typography>{overview}</Typography>
-              {showMore ? (
+              {false ? (
                 <MoreInfo providers={providers} similarMovies={similarMovies} />
               ) : null}
             </Paper>

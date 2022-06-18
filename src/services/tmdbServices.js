@@ -74,7 +74,6 @@ export const fetchWatchProviders = async (movieId) => {
     const response = await axios.get(
       `${API_PATH}/movie/${movieId}/watch/providers${API_KEY}`
     );
-    console.log(response.data.results.US);
     return response.data.results.US;
   } catch (error) {
     console.log("errorFetchWatchProviders", error);

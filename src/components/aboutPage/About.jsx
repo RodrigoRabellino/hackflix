@@ -1,10 +1,18 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, useMediaQuery } from "@mui/material";
 
 const About = () => {
+  const mediaQueryW650 = useMediaQuery("(max-width:650px)");
   return (
     <Box width="100vw">
-      <Container sx={{ display: "flex", paddingTop: "2rem" }}>
-        <Typography color="HighlightText">
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: mediaQueryW650 ? "column" : "row",
+          paddingTop: "2rem",
+          color: "#fefefe",
+        }}
+      >
+        <Typography>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. A dolorum
           quod dolorem earum, neque minus quaerat atque, ut blanditiis
           architecto obcaecati! Necessitatibus autem asperiores ducimus fugiat
@@ -24,7 +32,7 @@ const About = () => {
           voluptatibus voluptas consectetur fuga dolore et obcaecati reiciendis
           at. Sed?
         </Typography>
-        <Typography color="HighlightText">
+        <Typography>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. A dolorum
           quod dolorem earum, neque minus quaerat atque, ut blanditiis
           architecto obcaecati! Necessitatibus autem asperiores ducimus fugiat
