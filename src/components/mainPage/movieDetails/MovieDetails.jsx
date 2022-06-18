@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
@@ -26,6 +27,8 @@ const MovieDetails = () => {
   const [providers, setProvider] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
 
+  let mediaQueryW650 = useMediaQuery("(max-width:650px)");
+
   useEffect(() => {
     const getMovie = async () => {
       setMovie(await fetchOneMovie(movieId));
@@ -40,9 +43,6 @@ const MovieDetails = () => {
     getProvider();
     getSimilarMovies();
   }, [movieId]);
-  console.log(movie);
-
-  console.log("similar", providers);
   const { title, overview, backdrop_path, vote_average, vote_count, name } =
     movie;
   const backImgPath = URL_POSTER_FULL + backdrop_path;
@@ -53,7 +53,7 @@ const MovieDetails = () => {
       ) : (
         <Box
           width="100%"
-          height="100vh"
+          height="92vh"
           position="relative"
           text-align="center"
           display="flex"
@@ -88,35 +88,42 @@ const MovieDetails = () => {
                 onClick={() => setShowMore(!showMore)}
                 justifyContent="space-between"
               >
-                <Box display="flex">
-                  <Typography variant="h4">{!title ? name : title}</Typography>
+                <Box display="flex" alignItems="center">
+                  <Typography variant={mediaQueryW650 ? "h5" : "h4"}>
+                    {!title ? name : title}
+                  </Typography>
 
                   <IconButton>
-                    {showMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    {showMore ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
                   </IconButton>
                 </Box>
                 <Box
                   display="flex"
-                  width="15%"
                   justifyContent="start"
-                  alignItems="center"
+                  alignItems={mediaQueryW650 ? "end" : "center"}
+                  flexDirection={mediaQueryW650 ? "column" : "row"}
                 >
                   <Typography display="flex" fontWeight="600">
                     IMDB:
                     <Typography color="primary" fontWeight="600">
-                      {vote_average}{" "}
+                      {vote_average}
                     </Typography>
                   </Typography>
-                  <Typography display="flex" fontWeight="600">
+                  <Typography
+                    display="flex"
+                    fontWeight="600"
+                    marginLeft="0.65rem"
+                    noWrap={true}
+                  >
                     Vote count:
                     <Typography color="primary" fontWeight="600">
-                      {vote_count}{" "}
+                      {vote_count}
                     </Typography>
                   </Typography>
                 </Box>
               </Box>
               <Typography>{overview}</Typography>
-              {false ? (
+              {showMore ? (
                 <MoreInfo providers={providers} similarMovies={similarMovies} />
               ) : null}
             </Paper>

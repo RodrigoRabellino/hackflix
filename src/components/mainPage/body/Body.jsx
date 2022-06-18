@@ -4,6 +4,7 @@ import {
   CircularProgress,
   IconButton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { fetchMovies, URL_POSTER_FULL } from "../../../services/tmdbServices";
@@ -54,6 +55,7 @@ const MySlider = ({ movies }) => {
 };
 
 const MySliderItem = ({ movie }) => {
+  let mediaQueryW650 = useMediaQuery("(max-width:650px)");
   const navigate = useNavigate();
   const { backdrop_path, title, overview, id } = movie;
   const posterPath = URL_POSTER_FULL + backdrop_path;
@@ -62,8 +64,8 @@ const MySliderItem = ({ movie }) => {
       <img srcSet={posterPath} alt={title} className="img-in-carousel" />
       <Box
         position="absolute"
-        bottom="75px"
-        marginLeft="2rem"
+        bottom="60px"
+        marginLeft={mediaQueryW650 ? "0" : "6rem"}
         maxWidth="500px"
         padding="0.65rem"
         zIndex="800"
@@ -72,9 +74,9 @@ const MySliderItem = ({ movie }) => {
           component="span"
           sx={{
             textShadow: "1px 1px 3px black",
+            color: "#fefefe",
           }}
-          color="HighlightText"
-          variant="h4"
+          variant={mediaQueryW650 ? "h6" : "h3"}
           fontWeight="800"
         >
           {title}
@@ -82,10 +84,10 @@ const MySliderItem = ({ movie }) => {
         <Typography
           sx={{
             textShadow: "1px 1px 3px black",
+            color: "#fefefe",
           }}
-          color="HighlightText"
           variant="body2"
-          fontSize="18px"
+          fontSize={mediaQueryW650 ? "12px" : "18px"}
           fontWeight="400"
         >
           {overview}

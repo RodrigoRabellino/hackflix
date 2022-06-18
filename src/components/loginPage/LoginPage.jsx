@@ -1,4 +1,4 @@
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, useMediaQuery, Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { logInUser } from "../../redux/user/slice";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let mediaQueryW900 = useMediaQuery("(max-width:900px)");
   const usersList = [
     {
       id: 1,
@@ -49,15 +50,17 @@ const LoginPage = () => {
       <Typography
         sx={{
           fontSize: "3.5vw",
+          color: "#fefefe",
         }}
-        color="HighlightText"
       >
         Who's watching?
       </Typography>
-      <Box display="flex" flexDirection="row">
+      <Grid container spacing={2} justifyContent="center">
         {usersList.map((user) => {
           return (
-            <Box
+            <Grid
+              item
+              lg="auto"
               key={user.id}
               onClick={() => handleLogin(user)}
               sx={{
@@ -80,13 +83,15 @@ const LoginPage = () => {
                   borderRadius: "5px",
                 }}
               />
-              <Typography textAlign="center" color="HighlightText">
+              <Typography textAlign="center" sx={{ color: "#fefefe" }}>
                 {user.name}
               </Typography>
-            </Box>
+            </Grid>
           );
         })}
-      </Box>
+      </Grid>
+
+      <Typography sx={{ color: "#282828" }}>Version: 1.0.5</Typography>
     </Container>
   );
 };
