@@ -47,10 +47,10 @@ export const fetchGenresInMovie = async (movie_genres) => {
   }
 };
 
-export const fetchOneMovie = async (movieId) => {
+export const fetchOneMovie = async (movieId, type) => {
   try {
     const response = await axios.get(
-      `${API_PATH}/movie/${movieId}${API_KEY}&language=en-US`
+      `${API_PATH}/${type}/${movieId}${API_KEY}&language=en-US`
     );
     return response.data;
   } catch (error) {
@@ -58,10 +58,10 @@ export const fetchOneMovie = async (movieId) => {
   }
 };
 
-export const fetchSimilarMovies = async (movieId) => {
+export const fetchSimilarMovies = async (movieId, type) => {
   try {
     const response = await axios.get(
-      `${API_PATH}/movie/${movieId}/similar${API_KEY}&language=en-US&page=1`
+      `${API_PATH}/${type}/${movieId}/similar${API_KEY}&language=en-US&page=1`
     );
     return response.data.results;
   } catch (error) {
@@ -69,12 +69,14 @@ export const fetchSimilarMovies = async (movieId) => {
   }
 };
 
-export const fetchWatchProviders = async (movieId) => {
+export const fetchWatchProviders = async (movieId, type) => {
   try {
     const response = await axios.get(
-      `${API_PATH}/movie/${movieId}/watch/providers${API_KEY}`
+      `${API_PATH}/${type}/${movieId}/watch/providers${API_KEY}`
     );
-    return response.data.results.US;
+    return type === "tv"
+      ? response.data.results.US.flatrate
+      : response.data.results.US.rent;
   } catch (error) {
     console.log("errorFetchWatchProviders", error);
     return [];

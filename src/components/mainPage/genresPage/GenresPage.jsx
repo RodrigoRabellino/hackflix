@@ -2,8 +2,8 @@ import { Box, Skeleton, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { fetchGenres, fetchMovies } from "../../../services/tmdbServices";
 import "react-alice-carousel/lib/alice-carousel.css";
-import Carousel from "./carousel/Carousel";
 import { useSelector } from "react-redux";
+import MySlider from "./mySlider/MySlider";
 
 const GenresPage = () => {
   const [movies, setMovies] = useState([]);
@@ -32,33 +32,21 @@ const GenresPage = () => {
       {movies.length === 0 ? (
         <GenreSkeleton />
       ) : (
-        <>
+        <Box display="flex" flexDirection="column" alignItems="center">
           {userGenres.map((favGenre) => {
             return (
-              <CarouselGenre
-                movies={movies}
+              <MySlider
+                movies={movies.filter(
+                  (movie) => movie.genre_ids[0] === favGenre.id
+                )}
                 genre={favGenre}
                 key={favGenre.id}
               />
             );
           })}
-        </>
+        </Box>
       )}
     </>
-  );
-};
-
-const CarouselGenre = ({ movies, genre }) => {
-  return (
-    <Box textAlign="start">
-      <Typography variant="h5" color="HighlightText" paddingLeft="5rem">
-        {genre.name}
-      </Typography>
-      <Carousel
-        movies={movies.filter((movie) => movie.genre_ids[0] === genre.id)}
-        genre={"Terror"}
-      />
-    </Box>
   );
 };
 

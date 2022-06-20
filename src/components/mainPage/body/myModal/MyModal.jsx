@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { URL_POSTER_FULL } from "../../../../services/tmdbServices";
@@ -13,9 +14,12 @@ import "./myModal.css";
 
 const MyModal = ({ open, handleClose, movie }) => {
   const navigate = useNavigate();
-
-  const { backdrop_path, title, vote_average, overview, name } = movie;
+  let mediaQueryW900 = useMediaQuery("(max-width:900px)");
+  let mediaQueryW500 = useMediaQuery("(max-width:500px)");
+  const { backdrop_path, title, vote_average, overview, name, media_type } =
+    movie;
   const posterPath = URL_POSTER_FULL + backdrop_path;
+
   return (
     <Modal
       open={open}
@@ -30,12 +34,13 @@ const MyModal = ({ open, handleClose, movie }) => {
     >
       <Paper
         sx={{
-          maxWidth: "800px",
+          transition: "0.5s",
           display: "flex",
           flexDirection: "column",
           background: "#141414",
-          width: "50%",
+          width: mediaQueryW900 ? "100%" : "800px",
           overflow: "hidden",
+          borderRadius: mediaQueryW900 ? "0" : "5px",
         }}
       >
         <img
@@ -64,12 +69,12 @@ const MyModal = ({ open, handleClose, movie }) => {
           >
             <Box
               display="flex"
-              width="75%"
+              width={mediaQueryW900 ? "100%" : "75%"}
               alignItems="center"
               justifyContent="start"
             >
               <Typography
-                color="HighlightText"
+                sx={{ color: "#ffffff" }}
                 variant="h5"
                 marginRight="0.65rem"
               >
@@ -85,25 +90,37 @@ const MyModal = ({ open, handleClose, movie }) => {
                   color="primary"
                   size="small"
                   onClick={() =>
-                    navigate(`/movie/${movie.id}`, { replace: true })
+                    navigate(`/${media_type}/${movie.id}`, { replace: true })
                   }
                 >
                   <Launch />
                 </IconButton>
               </Tooltip>
             </Box>
-            <Paper sx={{ padding: "0.65rem", background: "#e41114" }}>
-              <Typography
-                variant="body1"
-                color="HighlightText"
-                fontWeight={800}
+            {mediaQueryW500 ? (
+              <></>
+            ) : (
+              <Paper
+                sx={{
+                  padding: "0.65rem",
+                  background: "#e41114",
+                  height: "50px",
+                  width: "50px",
+                }}
               >
-                {vote_average}
-              </Typography>
-            </Paper>
+                <Typography
+                  variant="body1"
+                  sx={{ color: "#ffffff" }}
+                  fontWeight={800}
+                  fontSize="20px"
+                >
+                  {vote_average}
+                </Typography>
+              </Paper>
+            )}
           </Box>
           <Box paddingX="1rem" paddingTop="0.65rem">
-            <Typography color="HighlightText">{overview}</Typography>
+            <Typography sx={{ color: "#ffffff" }}>{overview}</Typography>
           </Box>
         </Box>
       </Paper>

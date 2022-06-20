@@ -17,32 +17,43 @@ import {
   fetchWatchProviders,
   URL_POSTER_FULL,
 } from "../../../services/tmdbServices";
+import MySlider from "../genresPage/mySlider/MySlider";
 import "./movieDetails.css";
-import Carousel from "../genresPage/carousel/Carousel";
 
 const MovieDetails = () => {
-  const { movieId } = useParams();
+  const { movieId, showId } = useParams();
   const [movie, setMovie] = useState({});
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(true);
   const [providers, setProvider] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
 
   let mediaQueryW650 = useMediaQuery("(max-width:650px)");
+  let mediaQueryW600 = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
+    let id = 0;
+    let type = "";
+    if (!movieId) {
+      id = showId;
+      type = "tv";
+    } else {
+      id = movieId;
+      type = "movie";
+    }
+
     const getMovie = async () => {
-      setMovie(await fetchOneMovie(movieId));
+      setMovie(await fetchOneMovie(id, type));
     };
     const getProvider = async () => {
-      setProvider(await fetchWatchProviders(movieId));
+      setProvider(await fetchWatchProviders(id, type));
     };
     const getSimilarMovies = async () => {
-      setSimilarMovies(await fetchSimilarMovies(movieId));
+      setSimilarMovies(await fetchSimilarMovies(id, type));
     };
     getMovie();
     getProvider();
     getSimilarMovies();
-  }, [movieId]);
+  }, [movieId, showId]);
   const { title, overview, backdrop_path, vote_average, vote_count, name } =
     movie;
   const backImgPath = URL_POSTER_FULL + backdrop_path;
@@ -80,16 +91,21 @@ const MovieDetails = () => {
               sx={{
                 transition: "0.9s",
                 padding: "1rem",
-                borderRadius: "0",
+                borderRadius: showMore ? "15px" : "0",
               }}
             >
               <Box
                 display="flex"
+                flexDirection={mediaQueryW600 ? "column" : "row"}
                 onClick={() => setShowMore(!showMore)}
                 justifyContent="space-between"
               >
                 <Box display="flex" alignItems="center">
-                  <Typography variant={mediaQueryW650 ? "h5" : "h4"}>
+                  <Typography
+                    noWrap
+                    textOverflow="ellipsis"
+                    variant={mediaQueryW650 ? "h5" : "h4"}
+                  >
                     {!title ? name : title}
                   </Typography>
 
@@ -99,17 +115,20 @@ const MovieDetails = () => {
                 </Box>
                 <Box
                   display="flex"
-                  justifyContent="start"
-                  alignItems={mediaQueryW650 ? "end" : "center"}
-                  flexDirection={mediaQueryW650 ? "column" : "row"}
+                  marginY={mediaQueryW600 ? "0.65rem" : "0"}
+                  justifyContent={mediaQueryW600 ? "center" : "end"}
+                  alignItems={mediaQueryW600 ? "end" : "end"}
+                  flexDirection={mediaQueryW600 ? "row" : "column"}
                 >
-                  <Typography display="flex" fontWeight="600">
+                  <Typography itemType="span" display="flex" fontWeight="600">
                     IMDB:
                     <Typography color="primary" fontWeight="600">
                       {vote_average}
                     </Typography>
                   </Typography>
+
                   <Typography
+                    itemType="span"
                     display="flex"
                     fontWeight="600"
                     marginLeft="0.65rem"
@@ -122,8 +141,9 @@ const MovieDetails = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Typography>{overview}</Typography>
-              {false ? (
+              {showMore ? <Typography>{overview}</Typography> : <></>}
+
+              {showMore ? (
                 <MoreInfo providers={providers} similarMovies={similarMovies} />
               ) : null}
             </Paper>
@@ -149,46 +169,64 @@ const MovieSkeleton = () => {
     </Box>
   );
 };
+
 const MoreInfo = ({ providers, similarMovies }) => {
-  <Box
-    sx={{
-      marginTop: "1rem",
-      transition: "0.2s",
-      height: "fit-content",
-    }}
-  >
-    {providers.length === 0 ? null : (
-      <>
-        <Typography color="primary">Streaming now in: </Typography>
-        <Box display="flex" justifyContent="space-around" paddingY="1rem">
-          {providers.map((provider) => {
-            let logoPath = URL_POSTER_FULL + provider.logo_path;
-            return (
-              <Box
-                key={provider.provider_id}
-                width="50px"
-                sx={{
-                  transition: "0.2s",
-                  ":hover": {
-                    transition: "0.2s",
-                    transform: "scale(1.1)",
-                  },
-                }}
-              >
-                <Tooltip title={provider.provider_name} placement="top">
-                  <img
-                    srcSet={logoPath}
-                    style={{ width: "50px" }}
-                    alt={provider.provider_name}
-                  />
-                </Tooltip>
-              </Box>
-            );
-          })}
-        </Box>
-      </>
-    )}
-  </Box>;
+  return (
+    <>
+      <Box
+        sx={{
+          marginTop: "1rem",
+          transition: "0.2s",
+          height: "fit-content",
+        }}
+      >
+        {providers.length === 0 ? null : (
+          <>
+            <Typography color="primary">Streaming now in: </Typography>
+            <Box display="flex" justifyContent="space-around" paddingY="1rem">
+              {providers.map((provider) => {
+                let logoPath = URL_POSTER_FULL + provider.logo_path;
+                return (
+                  <Box
+                    borderRadius="50px"
+                    overflow="hidden"
+                    key={provider.provider_id}
+                    width="50px"
+                    height="50px"
+                    sx={{
+                      transition: "0.2s",
+                      ":hover": {
+                        transition: "0.2s",
+                        transform: "scale(1.1)",
+                      },
+                    }}
+                  >
+                    <Tooltip title={provider.provider_name} placement="top">
+                      <img
+                        srcSet={logoPath}
+                        style={{ width: "50px" }}
+                        alt={provider.provider_name}
+                      />
+                    </Tooltip>
+                  </Box>
+                );
+              })}
+            </Box>
+          </>
+        )}
+        {similarMovies.length === 0 ? (
+          <></>
+        ) : (
+          <>
+            <Typography color="primary">More like this: </Typography>
+            <Box display="flex" justifyContent="space-around" paddingY="1rem">
+              <MySlider movies={similarMovies} genre={""} />
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
+  );
 };
 
 export default MovieDetails;

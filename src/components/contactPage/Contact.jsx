@@ -109,7 +109,10 @@ const ContactForm = ({ mediaQuery }) => {
         Contact Me
       </Typography>
 
-      <Paper elevation={0} sx={{ padding: "1rem", width: "100%" }}>
+      <Paper
+        elevation={0}
+        sx={{ width: "100%", padding: "1rem", paddingX: "1.5rem" }}
+      >
         <form onSubmit={(e) => e.preventDefault()}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

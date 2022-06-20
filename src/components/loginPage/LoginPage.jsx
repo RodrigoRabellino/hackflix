@@ -91,7 +91,7 @@ const LoginPage = () => {
         })}
       </Grid>
 
-      <Typography sx={{ color: "#282828" }}>Version: 1.1.2</Typography>
+      <Typography sx={{ color: "#282828" }}>Version: 1.1.0</Typography>
     </Container>
   );
 };
