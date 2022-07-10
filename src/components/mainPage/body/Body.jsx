@@ -1,7 +1,7 @@
 import {
   Box,
-  Button,
   CircularProgress,
+  Container,
   IconButton,
   Typography,
   useMediaQuery,
@@ -27,7 +27,6 @@ const Body = () => {
 
   return (
     <>
-      {/* slider container */}
       <Box>
         {movies.length === 0 ? (
           <CircularProgress />
@@ -35,11 +34,9 @@ const Body = () => {
           <MySlider movies={movies.slice(0, 5)} />
         )}
       </Box>
-      {/*  body container */}
-      <Box>
-        {/* <RatingSearch /> */}
+      <Container>
         <NameSearch />
-      </Box>
+      </Container>
     </>
   );
 };
@@ -62,48 +59,50 @@ const MySliderItem = ({ movie }) => {
   return (
     <Box position="relative">
       <img srcSet={posterPath} alt={title} className="img-in-carousel" />
-      <Box
-        position="absolute"
-        bottom="60px"
-        marginLeft={mediaQueryW650 ? "0" : "6rem"}
-        maxWidth="500px"
-        padding="0.65rem"
-        zIndex="800"
-      >
-        <Typography
-          component="span"
-          sx={{
-            textShadow: "1px 1px 3px black",
-            color: "#fefefe",
-          }}
-          variant={mediaQueryW650 ? "h6" : "h3"}
-          fontWeight="800"
+      <Container>
+        <Box
+          position="absolute"
+          bottom="60px"
+          maxWidth="500px"
+          padding="0.65rem"
+          zIndex="800"
         >
-          {title}
-        </Typography>
-        <Typography
-          sx={{
-            textShadow: "1px 1px 3px black",
-            color: "#fefefe",
-          }}
-          variant="body2"
-          fontSize={mediaQueryW650 ? "12px" : "18px"}
-          fontWeight="400"
-        >
-          {overview}
-        </Typography>
-        <Box display="flex" justifyContent="end" marginTop="0.65rem">
-          <IconButton
-            color="primary"
-            variant="text"
-            size="small"
-            onClick={() => navigate(`/movie/${id}`, { replace: true })}
+          <Typography
+            component="span"
+            sx={{
+              textShadow: "1px 1px 3px black",
+              color: "#fefefe",
+            }}
+            variant={mediaQueryW650 ? "h6" : "h3"}
+            fontWeight="800"
           >
-            <Launch />
-            <Typography variant="button">More</Typography>
-          </IconButton>
+            {title}
+          </Typography>
+          <Typography
+            sx={{
+              textShadow: "1px 1px 3px black",
+              color: "#fefefe",
+            }}
+            variant="body2"
+            fontSize={mediaQueryW650 ? "12px" : "18px"}
+            fontWeight="400"
+          >
+            {overview}
+          </Typography>
+          <Box display="flex" justifyContent="end" marginTop="0.65rem">
+            <IconButton
+              color="primary"
+              variant="text"
+              size="small"
+              onClick={() => navigate(`/movie/${id}`, { replace: true })}
+            >
+              <Launch />
+              <Typography variant="button">More</Typography>
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
+      </Container>
+
       <Box
         position="absolute"
         className="gradient-shadow"

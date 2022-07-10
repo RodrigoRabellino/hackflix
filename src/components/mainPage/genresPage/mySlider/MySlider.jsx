@@ -1,4 +1,5 @@
 import {
+  Container,
   Divider,
   IconButton,
   Tooltip,
@@ -15,7 +16,6 @@ import "./mySlider.css";
 
 const MySlider = ({ movies, genre }) => {
   const navigate = useNavigate();
-  let mediaQueryW400 = useMediaQuery("(max-width:400px)");
   const properties = {
     duration: 1000,
     autoplay: false,
@@ -25,14 +25,14 @@ const MySlider = ({ movies, genre }) => {
       {
         breakpoint: 1500,
         settings: {
-          slidesToShow: 7,
+          slidesToShow: 5,
           slidesToScroll: 3,
         },
       },
       {
         breakpoint: 1300,
         settings: {
-          slidesToShow: 6,
+          slidesToShow: 5,
           slidesToScroll: 3,
         },
       },
@@ -40,7 +40,7 @@ const MySlider = ({ movies, genre }) => {
       {
         breakpoint: 1100,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 4,
           slidesToScroll: 1,
         },
       },
@@ -62,11 +62,7 @@ const MySlider = ({ movies, genre }) => {
   };
   if (movies.length === 0) return null;
   return (
-    <Box
-      width={mediaQueryW400 ? "75%" : "95%"}
-      display="flex"
-      flexDirection="column"
-    >
+    <Container display="flex" flexDirection="column">
       <Box>
         <Typography
           variant="h5"
@@ -77,7 +73,6 @@ const MySlider = ({ movies, genre }) => {
           {genre.name}
         </Typography>
       </Box>
-      <Divider />
       <Slide {...properties}>
         {movies.map((movie) => {
           const { backdrop_path, title, id } = movie;
@@ -146,7 +141,7 @@ const MySlider = ({ movies, genre }) => {
           );
         })}
       </Slide>
-    </Box>
+    </Container>
   );
 };
 
