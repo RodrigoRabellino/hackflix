@@ -90,7 +90,15 @@ const MyModal = ({ open, handleClose, movie }) => {
                   color="primary"
                   size="small"
                   onClick={() =>
-                    navigate(`/${media_type}/${movie.id}`, { replace: true })
+                    navigate(
+                      {
+                        pathname: `/movie/${movie.id}`,
+                        search: `?type=${media_type}`,
+                      },
+                      {
+                        replace: false,
+                      }
+                    )
                   }
                 >
                   <Launch />

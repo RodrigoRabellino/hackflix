@@ -78,7 +78,7 @@ const MySlider = ({ movies, genre }) => {
           const { backdrop_path, title, id } = movie;
           const backdropPath = URL_BACK_LOW + backdrop_path;
           return (
-            <Box display="flex" justifyContent="center">
+            <Box display="flex" justifyContent="center" key={id}>
               <Box position="relative" overflow="hidden" width="200px">
                 <img
                   key={id}

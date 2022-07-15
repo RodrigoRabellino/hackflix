@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   fetchOneMovie,
   fetchSimilarMovies,
@@ -21,7 +21,9 @@ import MySlider from "../genresPage/mySlider/MySlider";
 import "./movieDetails.css";
 
 const MovieDetails = () => {
-  const { movieId, showId } = useParams();
+  const { movieId } = useParams();
+  const urlPath = useLocation();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState({});
   const [showMore, setShowMore] = useState(true);
   const [providers, setProvider] = useState([]);
@@ -31,32 +33,33 @@ const MovieDetails = () => {
   let mediaQueryW600 = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
-    let id = 0;
-    let type = "";
-    if (!movieId) {
-      id = showId;
-      type = "tv";
-    } else {
-      id = movieId;
-      type = "movie";
-    }
+    let type = urlPath.search.split("=")[1];
 
-    const getMovie = async () => {
-      setMovie(await fetchOneMovie(id, type));
-    };
-    const getProvider = async () => {
-      setProvider(await fetchWatchProviders(id, type));
-    };
-    const getSimilarMovies = async () => {
-      setSimilarMovies(await fetchSimilarMovies(id, type));
-    };
-    getMovie();
-    getProvider();
-    getSimilarMovies();
-  }, [movieId, showId]);
+    try {
+      const getMovie = async () => {
+        const response = await fetchOneMovie(movieId, type);
+        setMovie(response);
+      };
+      const getProvider = async () => {
+        const resp = await fetchWatchProviders(movieId, type);
+        if (resp !== undefined) setProvider(resp);
+      };
+      const getSimilarMovies = async () => {
+        const resp = await fetchSimilarMovies(movieId, type);
+        if (!resp) setSimilarMovies(resp);
+      };
+      getMovie();
+      getProvider();
+      getSimilarMovies();
+    } catch (error) {
+      navigate("/error", { replace: true });
+    }
+  }, [movieId]);
+
   const { title, overview, backdrop_path, vote_average, vote_count, name } =
     movie;
   const backImgPath = URL_POSTER_FULL + backdrop_path;
+
   return (
     <Box overflow="hidden">
       {Object.entries(movie).length === 0 ? (
@@ -122,7 +125,11 @@ const MovieDetails = () => {
                 >
                   <Typography itemType="span" display="flex" fontWeight="600">
                     IMDB:
-                    <Typography color="primary" fontWeight="600">
+                    <Typography
+                      color="primary"
+                      fontWeight="600"
+                      component={"span"}
+                    >
                       {vote_average}
                     </Typography>
                   </Typography>
@@ -135,7 +142,11 @@ const MovieDetails = () => {
                     noWrap={true}
                   >
                     Vote count:
-                    <Typography color="primary" fontWeight="600">
+                    <Typography
+                      color="primary"
+                      fontWeight="600"
+                      component={"span"}
+                    >
                       {vote_count}
                     </Typography>
                   </Typography>
@@ -180,7 +191,9 @@ const MoreInfo = ({ providers, similarMovies }) => {
           height: "fit-content",
         }}
       >
-        {providers.length === 0 ? null : (
+        {providers.length === 0 ? (
+          <></>
+        ) : (
           <>
             <Typography color="primary">Streaming now in: </Typography>
             <Box display="flex" justifyContent="space-around" paddingY="1rem">

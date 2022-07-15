@@ -17,7 +17,7 @@ const MyRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/movie/:movieId" element={<MovieDetails />} />
-        <Route path="/tv/:showId" element={<MovieDetails />} />
+        <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
