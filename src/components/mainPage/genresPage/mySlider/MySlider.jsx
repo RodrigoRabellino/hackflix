@@ -125,7 +125,15 @@ const MySlider = ({ movies, genre }) => {
                     <Tooltip title="View More" placement="top">
                       <IconButton
                         onClick={() =>
-                          navigate(`/movie/${id}`, { replace: true })
+                          navigate(
+                            {
+                              pathname: `/movie/${movie.id}`,
+                              search: `?type=movie`,
+                            },
+                            {
+                              replace: false,
+                            }
+                          )
                         }
                       >
                         <Launch sx={{ color: "#ffffff" }} />

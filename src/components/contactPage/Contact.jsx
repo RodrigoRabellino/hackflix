@@ -111,7 +111,7 @@ const ContactForm = ({ mediaQuery }) => {
 
       <Paper
         elevation={0}
-        sx={{ width: "100%", padding: "1rem", paddingX: "1.5rem" }}
+        sx={{ width: "100%", paddingY: "2rem", paddingX: "3rem" }}
       >
         <form onSubmit={(e) => e.preventDefault()}>
           <Grid container spacing={2}>

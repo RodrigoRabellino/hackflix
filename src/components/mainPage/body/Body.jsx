@@ -7,7 +7,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { fetchMovies, URL_POSTER_FULL } from "../../../services/tmdbServices";
+import {
+  fetchMovieByQuery,
+  URL_POSTER_FULL,
+} from "../../../services/tmdbServices";
 import Carousel from "react-material-ui-carousel";
 import "./body.css";
 import NameSearch from "./nameSearch/NameSearch";
@@ -19,7 +22,7 @@ const Body = () => {
 
   useEffect(() => {
     const searchMovies = async () => {
-      const resp = await fetchMovies(1);
+      const resp = await fetchMovieByQuery("Star", 1);
       setMovies(resp);
     };
     searchMovies();
@@ -54,7 +57,7 @@ const MySlider = ({ movies }) => {
 const MySliderItem = ({ movie }) => {
   let mediaQueryW650 = useMediaQuery("(max-width:650px)");
   const navigate = useNavigate();
-  const { backdrop_path, title, overview, id } = movie;
+  const { backdrop_path, title, overview, id, media_type } = movie;
   const posterPath = URL_POSTER_FULL + backdrop_path;
   return (
     <Box position="relative">
@@ -94,7 +97,17 @@ const MySliderItem = ({ movie }) => {
               color="primary"
               variant="text"
               size="small"
-              onClick={() => navigate(`/movie/${id}`, { replace: true })}
+              onClick={() =>
+                navigate(
+                  {
+                    pathname: `/movie/${movie.id}`,
+                    search: `?type=${media_type}`,
+                  },
+                  {
+                    replace: false,
+                  }
+                )
+              }
             >
               <Launch />
               <Typography variant="button">More</Typography>
